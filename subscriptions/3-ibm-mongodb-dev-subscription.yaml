@@ -1,0 +1,31 @@
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: ibm-mongodb-dev
+  namespace: developer-editions
+  annotations:
+    tillerVersion: 2.9.1
+spec:
+  channel: ibmcom/ibm-developer-edition-charts
+  name: ibm-mongodb-dev
+  #packageFilter:
+  #  version: "1.0.0"
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
+  packageOverrides:
+  - packageName: ibm-mongodb-dev
+    packageOverrides:
+    - path: spec.values
+      value: |
+        # Additional values: https://github.com/IBM/charts/tree/master/stable/ibm-mongodb-dev
+        database:
+          password: mymongodb123
+          name: mymongodb
+        persistence:
+          enabled: false
+          useDynamicProvisioning: false

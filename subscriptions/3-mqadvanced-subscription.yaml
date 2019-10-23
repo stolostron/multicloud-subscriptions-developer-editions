@@ -1,0 +1,74 @@
+---
+#Secret mq-for-me
+apiVersion: app.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  annotations:
+    app.ibm.com/is-local-deployable: "false"
+  labels:
+    secret: mqadvanced-server-secret-dev
+  name: mq-secret-dev
+  namespace: vault
+spec:
+  template:
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: mq-secret-dev
+    type: Opaque
+    data:
+      adminPassword: bXEtZm9yLW1l
+      appPassword: bXEtZm9yLW1l
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: mq-advanced-server-secret-dev
+  namespace: developer-editions
+spec:
+  channel: vault/secrets
+  packageFilter:
+    labelSelector:
+      matchLabels:
+        secret: mqadvanced-server-secret-dev
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: mq-advanced-server-dev
+  namespace: developer-editions
+  annotations:
+    tillerVersion: 2.9.1
+spec:
+  channel: ibmcom/ibm-developer-edition-charts
+  source: https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
+  name: ibm-mqadvanced-server-dev
+  packageFilter:
+    version: "4.1.1"
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
+  packageOverrides:
+  - packageName: ibm-mqadvanced-server-dev
+    packageOverrides:
+    - path: spec.values
+      value: |
+        # Additional values: https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev
+        persistence:
+          enabled: false
+          useDynamicProvisioning: false
+        license: accept
+        queueManager:
+          dev:
+            secret:
+              adminPasswordKey: adminPassword
+              name: mq-secret-dev

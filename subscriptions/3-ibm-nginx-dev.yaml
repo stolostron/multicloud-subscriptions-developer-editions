@@ -1,0 +1,19 @@
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: ibm-nginx-dev
+  namespace: developer-editions
+  annotations:
+    tillerVersion: 2.9.1
+spec:
+  channel: ibmcom/ibm-developer-edition-charts
+  name: ibm-nginx-dev
+  packageFilter:
+    version: "1.0.1"
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
