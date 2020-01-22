@@ -15,8 +15,16 @@ metadata:
 spec:
     type: HelmRepo
     pathname: https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
-    configMap:
-      insecureSkipVerify: true
+    configRef:
+      name: insecure-skip-verify
+---
+apiVersion: v1
+data:
+  insecureSkipVerify: "true"
+kind: ConfigMap
+metadata:
+  name: insecure-skip-verify
+  namespace: ibmcom
 ---
 apiVersion: app.k8s.io/v1beta1
 kind: Application
@@ -46,7 +54,7 @@ spec:
   clusterLabels:
     matchLabels:
       environment: Dev
-  clusterReplicas: 1
+  #clusterReplicas: 1  #Apply to how many matched clusters, default is ALL
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: PlacementRule
@@ -59,5 +67,5 @@ metadata:
 spec:
   clusterLabels:
     matchLabels:
-      environment: Production
-  clusterReplicas: 1
+      environment: Prod
+  #clusterReplicas: 1  #Apply to how many matched clusters, default is ALL

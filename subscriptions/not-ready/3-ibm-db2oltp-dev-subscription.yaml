@@ -1,0 +1,36 @@
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: ibm-db2oltp-dev
+  namespace: developer-editions
+  annotations:
+    tillerVersion: 2.9.1
+spec:
+  channel: ibmcom/ibm-developer-edition-charts
+  name: ibm-db2oltp-dev
+  #packageFilter:
+  #  version: "1.0.0"
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
+  packageOverrides:
+  - packageName: ibm-db2oltp-dev
+    packageOverrides:
+    - path: spec.values
+      value: |
+        # Additional values: https://github.com/IBM/charts/tree/master/stable/ibm-db2oltp-dev
+        db2inst:
+          password: mydb2123
+          instname: db2inst1
+        options:
+          databaseName: myfirstdb
+        persistence:
+          enabled: false
+          useDynamicProvisioning: false
+        image:
+          repository: ibmcom/db2
+          tag: latest

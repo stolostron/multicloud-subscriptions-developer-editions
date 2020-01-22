@@ -49,7 +49,6 @@ metadata:
     tillerVersion: 2.9.1
 spec:
   channel: ibmcom/ibm-developer-edition-charts
-  source: https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
   name: ibm-mqadvanced-server-dev
   packageFilter:
     version: "4.1.1"

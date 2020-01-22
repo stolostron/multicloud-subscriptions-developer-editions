@@ -1,0 +1,27 @@
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: ibm-nodejs-express
+  namespace: developer-editions
+  annotations:
+    tillerVersion: 2.9.1
+spec:
+  channel: ibmcom/ibm-developer-edition-charts
+  name: ibm-nodejs-express
+  packageFilter:
+    version: "1.0.0"
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
+  packageOverrides:
+  - packageName: ibm-nodejs-express
+    packageOverrides:
+    - path: spec.values
+      value: |
+        image:
+          repository: karbonara/nodejs-express
+          tag: latest

@@ -1,0 +1,19 @@
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    purpose: developer-editions
+  name: ibm-datapower-dev
+  namespace: developer-editions
+  annotations:
+    tillerVersion: 2.9.1
+spec:
+  channel: ibmcom/ibm-developer-edition-charts
+  name: ibm-datapower-dev
+  packageFilter:
+    version: "3.0.2"
+  placement:
+    placementRef:
+      name: dev-placementrule
+      kind: PlacementRule
