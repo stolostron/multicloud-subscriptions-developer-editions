@@ -1,6 +1,6 @@
-# IBM Developer Edition chart subscriptions with IBM Multicloud Manager
+# Developer Edition chart subscriptions with Subscriptions
 
-IBM hosts a number of developer charts on the `ibmcom` repository that can be used by the developer community. This repository contains multiple subscriptions that can be deployed to one or more managed clusters by using a subscription custom resource definition. This repository provides you with a guide for building a foundation for deploying the hosted developer charts by using IBM Multicloud Manager channels and subscriptions.
+IBM hosts a number of developer charts on the `ibmcom` repository that can be used by the developer community. This repository contains multiple subscriptions that can be deployed to one or more managed clusters by using a subscription custom resource definition. This repository provides you with a guide for building a foundation for deploying the hosted developer charts by using channels and subscriptions.
 
 ## Configuring a channel for the `ibmcom` Helm repository
 This repository provides you with the YAML content to create and use the following channels and subscriptions:
@@ -19,7 +19,7 @@ This repository provides you with the YAML content to create and use the followi
 * One application resource:
   1. This resource associates subscriptions and placement rules by using a labelSelector on `purpose: developer-editions`.
 
-### Commands to set up the channels for use with IBM Developer Edition charts
+### Commands to set up the channels for use with Developer Edition charts
 
 To set up the channels, run the following commands:
 ```bash
@@ -45,7 +45,7 @@ Placement rules:
 * `dev-placementrule`
 * `production-placementrule`
 
-## Subscribe a managed cluster to an IBM Developer Edition Chart
+## Subscribe a managed cluster to an Developer Edition Chart
 
 A subscription monitors the Helm repository for new versions of a chart. If no chart is deployed or if a new version of a deployed chart is found, the chart or the new version of the chart is deployed.
 
@@ -68,7 +68,7 @@ Subscriptions:
 * An `mq-advanced-server-secret-dev` subscription that delivers the Kubernetes secret that is inside the `mq-secret-dev` deployable to the managed clusters that match the associated placement rule.
 * An `mq-advanced-server-dev` subscription that propagates to the managed clusters defined in the placement rule, and then deploys the `mq-adv-server-dev` Helm chart. This subscription also contains Helm `values` overrides for the chart.
 
-### IBM Multicloud Manager subscriptions behind the scenes
+### Subscriptions behind the scenes
 
 * When the subscription is created on the hub cluster with a placement rule, the placement rule is evaluated. All managed clusters that match the placement rule get propagated a copy of the subscription.
 * Each propagated subscription on the managed cluster completes a different action
